@@ -18,16 +18,18 @@ public class HelloWord {
     HelloWordService helloWordService;
 
     @GetMapping("/log")
-    public void log(){
+    public String log(){
         logger.info("=========HelloWord.log start=======");
         helloWordService.log();
         logger.info("=========HelloWord.log end=======");
+        return  "ok";
     }
 
     @GetMapping("/exception")
-    public void exception(){
+    public String exception(){
         logger.info("=========HelloWord.exception start=======");
         int i = 1/0;
         logger.info("=========HelloWord.exception end=======");
+        return  "ok";
     }
 }

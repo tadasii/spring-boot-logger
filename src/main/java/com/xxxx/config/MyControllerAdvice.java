@@ -1,6 +1,7 @@
 package com.xxxx.config;
 
 import com.alibaba.fastjson.JSON;
+import com.xxxx.vo.CommonResp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -42,7 +43,7 @@ public class MyControllerAdvice implements ResponseBodyAdvice<Object> {
         response.setCharacterEncoding("UTF-8");
         respMap.put("code","99");
         respMap.put("traceId", MDC.get("traceId"));
-        respMap.put("message", exception.getMessage());
+        respMap.put("msg", exception.getMessage());
         try {
             response.getWriter().write(JSON.toJSONString(respMap));
         } catch (IOException e) {
@@ -62,7 +63,11 @@ public class MyControllerAdvice implements ResponseBodyAdvice<Object> {
         respMap.put("code","00");
         respMap.put("message","ok");
         respMap.put("traceId",MDC.get("traceId"));
-        respMap.put("data",o);
+        if(o instanceof  String){
+            return JSON.toJSONString(CommonResp.success(o,MDC.get("traceId")));
+        }else{
+            respMap.put("data",o);
+        }
         return respMap;
     }
 }
